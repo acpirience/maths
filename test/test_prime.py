@@ -1,4 +1,4 @@
-from prime.prime import MAX_PRIME, PRIME_LIST, is_prime
+from prime import MAX_PRIME, PRIME_LIST, is_prime
 
 
 def test_is_prime():
