@@ -18,3 +18,11 @@ def test_is_prime_not_in_prime_list():
     for i in range(1, MAX_PRIME + 1):
         if i not in PRIME_LIST:
             assert is_prime(i) == False
+
+
+def test_prime_list():
+    assert len(PRIME_LIST) == 1231
+
+
+def test_max_prime():
+    assert MAX_PRIME == 10007
