@@ -30,7 +30,12 @@ def main() -> None:
         )
         sys.exit(1)
 
-    number_is_prime: bool = is_prime(number)
+    try:
+        number_is_prime: bool = is_prime(number)
+    except ValueError as e:
+        logger.error(str(e))
+        sys.exit(1)
+
     if number_is_prime:
         logger.info(f"{number} is a prime number.")
     else:

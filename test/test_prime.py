@@ -1,3 +1,5 @@
+import pytest
+
 from prime import MAX_PRIME, PRIME_LIST, is_prime
 
 
@@ -26,3 +28,8 @@ def test_prime_list():
 
 def test_max_prime():
     assert MAX_PRIME == 10007
+
+
+def test_over_max_prime():
+    with pytest.raises(ValueError):
+        is_prime(MAX_PRIME + 1)

@@ -1249,5 +1249,9 @@ def is_prime(n: int) -> bool:
     Returns:
         bool: True if the number is prime, False otherwise.
     """
+    if n > MAX_PRIME:
+        raise ValueError(
+            f"Number {n} is too large. Maximum supported prime is {MAX_PRIME}."
+        )
 
     return n in PRIME_LIST
