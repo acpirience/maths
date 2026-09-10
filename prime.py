@@ -31,7 +31,7 @@ def main() -> None:
         sys.exit(1)
 
     number_is_prime: bool = is_prime(number)
-    if is_prime:
+    if number_is_prime:
         logger.info(f"{number} is a prime number.")
     else:
         logger.info(f"{number} is not a prime number.")
