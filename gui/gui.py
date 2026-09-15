@@ -70,30 +70,25 @@ class Gui(ctk.CTk):
             row=5, column=1, columnspan=NB_BUTTONS, padx=PADX, pady=PADY
         )
 
-    def divisors_callback(self):
+    def divisors_callback(self, event=None):
         try:
             val1 = self.entry1.get().strip()
-        except ValueError as e:
-            self.label_resultat.configure(
-                text=f"Please enter a positive integer: {e}",
-                text_color=("red", "#e74c3c"),
-            )
-            return
+            n1 = int(val1)  # Raises ValueError if string is not an integer
 
-        try:
-            n1 = int(val1)
-
-            divisors = Divisors(n1)
+            divisors = Divisors(n1)  # May raise ValueError (e.g., if negative or zero)
             _ = divisors.get_divisors()
+
             self.label_resultat.configure(
                 text=f"Divisors of {n1} : {divisors.pretty_print_factors()}",
                 text_color=("green", "#2ecc71"),
                 wraplength=380,
             )
-        except ValueError as error:
+
+        except ValueError:
             self.label_resultat.configure(
-                text=error,
+                text=f"Please enter a positive integer: {val1}",
                 text_color=("red", "#e74c3c"),
+                wraplength=380,
             )
 
     def factors_callback(self):
