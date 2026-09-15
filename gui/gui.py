@@ -2,10 +2,18 @@ import customtkinter as ctk
 
 from divisors import Divisors
 from factors import Factors
+from prime import is_prime
 
 # visual theme configuration
 ctk.set_appearance_mode("System")  # Adapted to the system theme (Dark/Light)
 ctk.set_default_color_theme("blue")
+
+WIDTH = 500
+HEIGHT = 400
+NB_BUTTONS = 3
+PADX = 20
+PADY = 20
+WIDTH_BUTTONS: int = (WIDTH - PADX * 2) // (NB_BUTTONS + 1)
 
 
 class Gui(ctk.CTk):
@@ -14,7 +22,7 @@ class Gui(ctk.CTk):
 
         # Configure the main window directly via self
         self.title("Math operations")
-        self.geometry("500x400")
+        self.geometry(f"{WIDTH}x{HEIGHT}")
         self.resizable(False, False)
 
         # Title label
@@ -23,32 +31,44 @@ class Gui(ctk.CTk):
             text="Math operations",
             font=ctk.CTkFont(size=18, weight="bold"),
         )
-        label_titre.grid(row=0, column=0, columnspan=3, padx=20, pady=20)
+        label_titre.grid(row=0, column=1, columnspan=NB_BUTTONS, padx=PADX, pady=PADY)
 
         # Field 1
-        self.entry1 = ctk.CTkEntry(self, placeholder_text="first number", width=250)
-        self.entry1.grid(row=1, column=0, columnspan=3, padx=20, pady=8)
+        self.entry1 = ctk.CTkEntry(
+            self, placeholder_text="first number", width=WIDTH // 2
+        )
+        self.entry1.grid(row=1, column=0, columnspan=NB_BUTTONS, padx=PADX, pady=8)
 
         # Field 2: used only for PGCD and PPCM, for future uses
-        self.entry2 = ctk.CTkEntry(self, placeholder_text="second number", width=250)
-        self.entry2.grid(row=2, column=0, columnspan=3, padx=20, pady=8)
+        self.entry2 = ctk.CTkEntry(
+            self, placeholder_text="second number", width=WIDTH // 2
+        )
+
+        self.entry2.grid(row=2, column=0, columnspan=NB_BUTTONS, padx=PADX, pady=8)
 
         # buttons
         self.btn_divisors = ctk.CTkButton(
-            self, text="Divisors", command=self.divisors_callback, width=100
+            self, text="Divisors", command=self.divisors_callback, width=WIDTH_BUTTONS
         )
-        self.btn_divisors.grid(row=4, column=1, padx=20, pady=20)
+        self.btn_divisors.grid(row=4, column=1, padx=PADX, pady=PADY)
 
         self.btn_factors = ctk.CTkButton(
-            self, text="Factors", command=self.factors_callback, width=100
+            self, text="Factors", command=self.factors_callback, width=WIDTH_BUTTONS
         )
-        self.btn_factors.grid(row=4, column=2, padx=20, pady=20)
+        self.btn_factors.grid(row=4, column=2, padx=PADX, pady=PADY)
+
+        self.btn_prime = ctk.CTkButton(
+            self, text="Prime ?", command=self.prime_callback, width=WIDTH_BUTTONS
+        )
+        self.btn_prime.grid(row=4, column=3, padx=PADX, pady=PADY)
 
         # label for result or error messages
         self.label_resultat = ctk.CTkLabel(
             self, text="", font=ctk.CTkFont(size=14, weight="bold")
         )
-        self.label_resultat.grid(row=5, column=0, columnspan=3, padx=20, pady=20)
+        self.label_resultat.grid(
+            row=5, column=1, columnspan=NB_BUTTONS, padx=PADX, pady=PADY
+        )
 
     def divisors_callback(self):
         try:
@@ -96,6 +116,35 @@ class Gui(ctk.CTk):
                 text_color=("green", "#2ecc71"),
                 wraplength=380,
             )
+        except ValueError as error:
+            self.label_resultat.configure(
+                text=error,
+                text_color=("red", "#e74c3c"),
+            )
+
+    def prime_callback(self):
+        try:
+            val1 = self.entry1.get().strip()
+        except ValueError as e:
+            self.label_resultat.configure(
+                text=f"Please enter a positive integer: {e}",
+                text_color=("red", "#e74c3c"),
+            )
+            return
+
+        try:
+            n1 = int(val1)
+
+            if is_prime(n1):
+                self.label_resultat.configure(
+                    text=f"{n1} is prime.",
+                    text_color=("green", "#2ecc71"),
+                )
+            else:
+                self.label_resultat.configure(
+                    text=f"{n1} is not prime.",
+                    text_color=("red", "#e7cb3c"),
+                )
         except ValueError as error:
             self.label_resultat.configure(
                 text=error,
