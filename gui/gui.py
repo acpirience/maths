@@ -94,14 +94,6 @@ class Gui(ctk.CTk):
     def factors_callback(self):
         try:
             val1 = self.entry1.get().strip()
-        except ValueError as e:
-            self.label_resultat.configure(
-                text=f"Please enter a positive integer: {e}",
-                text_color=("red", "#e74c3c"),
-            )
-            return
-
-        try:
             n1 = int(val1)
 
             factors = Factors(n1)
@@ -111,10 +103,11 @@ class Gui(ctk.CTk):
                 text_color=("green", "#2ecc71"),
                 wraplength=380,
             )
-        except ValueError as error:
+        except ValueError:
             self.label_resultat.configure(
-                text=error,
+                text=f"Please enter a positive integer: {val1}",
                 text_color=("red", "#e74c3c"),
+                wraplength=380,
             )
 
     def prime_callback(self):
