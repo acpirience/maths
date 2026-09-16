@@ -14,7 +14,7 @@ class Factors:
             dict[int, int]
         ] = []  # key of dict is factor, value is exponent
 
-    def factorise(self) -> list[dict[int, int]]:
+    def get_factors(self) -> list[dict[int, int]]:
         """
         Factorises the number into its prime factors.
 

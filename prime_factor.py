@@ -32,7 +32,7 @@ def main() -> None:
 
     factors: Factors = Factors(number)
     try:
-        _ = factors.factorise()
+        _ = factors.get_factors()
     except ValueError as e:
         logger.error(str(e))
         sys.exit(1)

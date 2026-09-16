@@ -105,7 +105,7 @@ class Gui(ctk.CTk):
             n1 = int(val1)
 
             factors = Factors(n1)
-            _ = factors.factorise()
+            _ = factors.get_factors()
             self.label_resultat.configure(
                 text=f"Factors of {n1} : {factors.pretty_print_factors()}",
                 text_color=("green", "#2ecc71"),
