@@ -113,14 +113,6 @@ class Gui(ctk.CTk):
     def prime_callback(self):
         try:
             val1 = self.entry1.get().strip()
-        except ValueError as e:
-            self.label_resultat.configure(
-                text=f"Please enter a positive integer: {e}",
-                text_color=("red", "#e74c3c"),
-            )
-            return
-
-        try:
             n1 = int(val1)
 
             if is_prime(n1):
@@ -131,10 +123,11 @@ class Gui(ctk.CTk):
             else:
                 self.label_resultat.configure(
                     text=f"{n1} is not prime.",
-                    text_color=("red", "#e7cb3c"),
+                    text_color=("orange", "#e7cb3c"),
                 )
-        except ValueError as error:
+        except ValueError:
             self.label_resultat.configure(
-                text=error,
+                text=f"Please enter a positive integer: {val1}",
                 text_color=("red", "#e74c3c"),
+                wraplength=380,
             )
