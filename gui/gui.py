@@ -2,6 +2,7 @@ import customtkinter as ctk
 
 from divisors import Divisors
 from factors import Factors
+from gcd import Gcd
 from prime import is_prime
 
 # visual theme configuration
@@ -14,6 +15,12 @@ NB_BUTTONS = 3
 PADX = 20
 PADY = 20
 WIDTH_BUTTONS: int = (WIDTH - PADX * 2) // (NB_BUTTONS + 1)
+
+OK_COLOR = "#2ecc71"
+KO_COLOR = "#e7cb3c"
+ERROR_COLOR = "#e74c3c"
+
+FONT_SIZE = 18
 
 
 class Gui(ctk.CTk):
@@ -29,7 +36,7 @@ class Gui(ctk.CTk):
         label_titre = ctk.CTkLabel(
             self,
             text="Math operations",
-            font=ctk.CTkFont(size=18, weight="bold"),
+            font=ctk.CTkFont(size=FONT_SIZE, weight="bold"),
         )
         label_titre.grid(row=0, column=1, columnspan=NB_BUTTONS, padx=PADX, pady=PADY)
 
@@ -62,12 +69,17 @@ class Gui(ctk.CTk):
         )
         self.btn_prime.grid(row=4, column=3, padx=PADX, pady=PADY)
 
+        self.btn_gcd = ctk.CTkButton(
+            self, text="gcd", command=self.gcd_callback, width=WIDTH_BUTTONS
+        )
+        self.btn_gcd.grid(row=5, column=1, padx=PADX, pady=PADY)
+
         # label for result or error messages
         self.label_resultat = ctk.CTkLabel(
-            self, text="", font=ctk.CTkFont(size=14, weight="bold")
+            self, text="", font=ctk.CTkFont(size=FONT_SIZE, weight="bold")
         )
         self.label_resultat.grid(
-            row=5, column=1, columnspan=NB_BUTTONS, padx=PADX, pady=PADY
+            row=6, column=1, columnspan=NB_BUTTONS, padx=PADX, pady=PADY
         )
 
     def divisors_callback(self, event=None):
@@ -80,14 +92,14 @@ class Gui(ctk.CTk):
 
             self.label_resultat.configure(
                 text=f"Divisors of {n1} : {divisors.pretty_print_factors()}",
-                text_color=("green", "#2ecc71"),
+                text_color=("green", OK_COLOR),
                 wraplength=380,
             )
 
         except ValueError:
             self.label_resultat.configure(
                 text=f"Please enter a positive integer: {val1}",
-                text_color=("red", "#e74c3c"),
+                text_color=("red", ERROR_COLOR),
                 wraplength=380,
             )
 
@@ -100,13 +112,13 @@ class Gui(ctk.CTk):
             _ = factors.get_factors()
             self.label_resultat.configure(
                 text=f"Factors of {n1} : {factors.pretty_print_factors()}",
-                text_color=("green", "#2ecc71"),
+                text_color=("green", OK_COLOR),
                 wraplength=380,
             )
         except ValueError:
             self.label_resultat.configure(
                 text=f"Please enter a positive integer: {val1}",
-                text_color=("red", "#e74c3c"),
+                text_color=("red", ERROR_COLOR),
                 wraplength=380,
             )
 
@@ -118,16 +130,36 @@ class Gui(ctk.CTk):
             if is_prime(n1):
                 self.label_resultat.configure(
                     text=f"{n1} is prime.",
-                    text_color=("green", "#2ecc71"),
+                    text_color=("green", OK_COLOR),
                 )
             else:
                 self.label_resultat.configure(
                     text=f"{n1} is not prime.",
-                    text_color=("orange", "#e7cb3c"),
+                    text_color=("orange", KO_COLOR),
                 )
         except ValueError:
             self.label_resultat.configure(
                 text=f"Please enter a positive integer: {val1}",
-                text_color=("red", "#e74c3c"),
+                text_color=("red", ERROR_COLOR),
+                wraplength=380,
+            )
+
+    def gcd_callback(self):
+        try:
+            val1 = self.entry1.get().strip()
+            val2 = self.entry2.get().strip()
+            n1 = int(val1)
+            n2 = int(val2)
+            gcd = Gcd(n1, n2)
+            result = gcd.calculate_gcd()
+            self.label_resultat.configure(
+                text=f"GCD of {n1} and {n2} is: {result}",
+                text_color=("green", OK_COLOR),
+                wraplength=380,
+            )
+        except ValueError:
+            self.label_resultat.configure(
+                text=f"Please enter positive integers: {val1}, {val2}",
+                text_color=("red", ERROR_COLOR),
                 wraplength=380,
             )
