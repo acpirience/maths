@@ -3,6 +3,7 @@ import customtkinter as ctk
 from divisors import Divisors
 from factors import Factors
 from gcd import Gcd
+from lcm import Lcm
 from prime import is_prime
 
 # visual theme configuration
@@ -73,6 +74,11 @@ class Gui(ctk.CTk):
             self, text="gcd", command=self.gcd_callback, width=WIDTH_BUTTONS
         )
         self.btn_gcd.grid(row=5, column=1, padx=PADX, pady=PADY)
+
+        self.btn_lcm = ctk.CTkButton(
+            self, text="lcm", command=self.lcm_callback, width=WIDTH_BUTTONS
+        )
+        self.btn_lcm.grid(row=5, column=2, padx=PADX, pady=PADY)
 
         # label for result or error messages
         self.label_resultat = ctk.CTkLabel(
@@ -154,6 +160,26 @@ class Gui(ctk.CTk):
             result = gcd.calculate_gcd()
             self.label_resultat.configure(
                 text=f"GCD of {n1} and {n2} is: {result}",
+                text_color=("green", OK_COLOR),
+                wraplength=380,
+            )
+        except ValueError:
+            self.label_resultat.configure(
+                text=f"Please enter positive integers: {val1}, {val2}",
+                text_color=("red", ERROR_COLOR),
+                wraplength=380,
+            )
+
+    def lcm_callback(self):
+        try:
+            val1 = self.entry1.get().strip()
+            val2 = self.entry2.get().strip()
+            n1 = int(val1)
+            n2 = int(val2)
+            lcm = Lcm(n1, n2)
+            result = lcm.calculate_lcm()
+            self.label_resultat.configure(
+                text=f"LCM of {n1} and {n2} is: {result}",
                 text_color=("green", OK_COLOR),
                 wraplength=380,
             )

@@ -13,7 +13,11 @@ def test_gcd():
 
     gcd_10000_2048 = Gcd(10000, 2048)
     result_10000_2048: int = gcd_10000_2048.calculate_gcd()
-    assert result_10000_2048 == 32, f"Expected 32, but got {result_10000_2048}"
+    assert result_10000_2048 == 16, f"Expected 16, but got {result_10000_2048}"
+
+    gcd_2048_2048 = Gcd(2048, 2048)
+    result_2048_2048: int = gcd_2048_2048.calculate_gcd()
+    assert result_2048_2048 == 2048, f"Expected 2048, but got {result_2048_2048}"
 
 
 def test_gcd_with_prime_numbers():
