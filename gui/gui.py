@@ -32,6 +32,7 @@ class Gui(ctk.CTk):
         self.title("Math operations")
         self.geometry(f"{WIDTH}x{HEIGHT}")
         self.resizable(False, False)
+        self.iconbitmap("maths.ico")
 
         # Title label
         label_titre = ctk.CTkLabel(
